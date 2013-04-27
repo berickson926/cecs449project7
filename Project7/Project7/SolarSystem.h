@@ -5,16 +5,16 @@ class SolarSystem
 {
 private:
 
-	Planet planetArray;
+	//Planet planetArray;
 
 public:
 
 	//Constructor
 	SolarSystem();
 
-	update();
+	void update();
 	//update(keyboard key input?);
-	render();
+	void render();
 };
 
 #endif

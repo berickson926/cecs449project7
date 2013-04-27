@@ -6,6 +6,11 @@ class Planet
 {
 
 
+public:
+
+	//Constructor
+	Planet();
+
 
 };
 
