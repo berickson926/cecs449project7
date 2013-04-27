@@ -12,10 +12,17 @@
 #include <gl/Glu.h>
 #include <gl/Glut.h>
 #include <stdlib.h>
+#include "SolarSystem.h"
+
 
 int cameraRotateWindow, solarSystemWindow; //Identifiers for the separate windows
-int wWidth = 500;
-int wHeight= 500;
+
+//Independent clip window/screen variables
+int ssWidth = 500;		//screen dimensions
+int ssHeight= 500;
+SolarSystem *solarSys;	//Reference to the solar system object we will be rendering
+int solarSysClip = 50;	//clip window value for solar system 
+
 
 //Pre:
 //Post:
@@ -24,19 +31,26 @@ void solarSys_KeyboardInput(unsigned char key, int x, int y)
 	//TODO
 }//end solarSys_KeyboardInput
 
-//Pre:
-//Post:
+//Pre: None
+//Post: Clears background to black and renders the current state of the solar system 3d model
 void solarSys_Display()
 {
-	//TODO
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0,0,0,0);
+
+	solarSys->render();
+
+	glutSwapBuffers();
 }//end solarSys_Display
 
 //Pre:
 //Post:
 void solarSys_Reshape(int w, int h)
 {
-	//TODO
+	
+	glutPostRedisplay();
 
+	
 }//end solarSys_Reshape
 
 
@@ -45,15 +59,19 @@ void solarSys_Reshape(int w, int h)
 //along with their required callbacks
 void initialize()
 {
-	glutInitWindowSize(wWidth,wHeight);
-
-
-
 	//Setup solar system window
+	solarSys = new SolarSystem();
+
+	glutInitWindowSize(ssWidth,ssHeight);
 	solarSystemWindow = glutCreateWindow("Solar System");
 	glutReshapeFunc(solarSys_Reshape);
 	glutDisplayFunc(solarSys_Display);
 	glutKeyboardFunc(solarSys_KeyboardInput);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -1, 100);
+
 
 	//Setup camera rotate example window
 
@@ -66,7 +84,6 @@ void main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-
 
 	initialize();
 
