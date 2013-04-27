@@ -38,6 +38,9 @@ void solarSys_Display()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	solarSys->render();
 
 	glutSwapBuffers();
@@ -47,11 +50,17 @@ void solarSys_Display()
 //Post:
 void solarSys_Reshape(int w, int h)
 {
-	
+	//TODO
 	glutPostRedisplay();
-
-	
 }//end solarSys_Reshape
+
+//Pre:
+//Post:
+void update()
+{
+	solarSys->update();
+	glutPostRedisplay();
+}
 
 
 //Pre:None
@@ -70,13 +79,14 @@ void initialize()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -1, 100);
+	glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -100, 100);
 
 
 	//Setup camera rotate example window
 
 
-
+	//Shared update callback
+	glutIdleFunc(update);
 }//end initializeWindows
 
 
