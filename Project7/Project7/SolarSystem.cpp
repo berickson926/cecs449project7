@@ -8,14 +8,18 @@
 
 SolarSystem::SolarSystem()
 {
-	stepMultiplier = 1;
+	stepMultiplier = 24;
 
-	sun = new Planet(1,1,0, 50,0,0, 0,0,0);
-	earth = new Planet(0,0,1, 15,150,1, 1,0,0);
+	sun =	new Planet(1,1,0, 50,0, 1,1); //Yes I know the sun isn't a planet, thanks
+	earth = new Planet(0,0,1, 15,150, 365,24);
+	moon =	new Planet(1,1,1, 2,20, 30.4, 1);
 
-	planetX = new Planet(1,0,1, 15, 100,5, 0,1,0);
-	planetY = new Planet(1,0,0, 15, 200,2, 0,1,0);
-	planetZ = new Planet(0,1,1, 15, 250,1, 0,1,0);
+	planetX = new Planet(1,0,1, 15, 300, 200,1);
+	planetY = new Planet(1,0,0, 15, 200, 500,1);
+	planetZ = new Planet(0,1,1, 15, 250, 100,1);
+
+	state = RUNNING;
+
 }//end constructor
 
 void SolarSystem::render()
@@ -26,6 +30,7 @@ void SolarSystem::render()
 
 	glPushMatrix();
 		earth->render();
+		moon->render();
 	glPopMatrix();
 
 	glPushMatrix();
@@ -33,19 +38,22 @@ void SolarSystem::render()
 	glPopMatrix();
 
 	glPushMatrix();
+		glRotatef(120,0,0,1);
 		planetY->render();
 	glPopMatrix();
 
 	glPushMatrix();
+		glRotatef(90,1,1,1);
 		planetZ->render();
 	glPopMatrix();
 }//end render
 
 void SolarSystem::update()
 {
-	if(state != STOPPED || state==STEP)
+	if(state == RUNNING || state==STEP)
 	{
 		earth->update(stepMultiplier);
+		moon->update(stepMultiplier);
 
 		planetX->update(stepMultiplier);
 		planetY->update(stepMultiplier);

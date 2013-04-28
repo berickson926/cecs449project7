@@ -95,7 +95,7 @@ void solarSys_Reshape(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//glTranslatef(0.0,0.0, -250.0);
-	gluLookAt(250,100,250, 0,0,0, 0,1,0);
+	gluLookAt(50,100,500, 0,0,0, 0,1,0);
 
 	glutPostRedisplay();
 }//end solarSys_Reshape
@@ -141,7 +141,7 @@ void initialize()
 void main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	initialize(); //setup windows & initialize data
 

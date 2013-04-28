@@ -16,17 +16,19 @@ private:
 
 	int* color;		//Defines RGB values for color rendering
 	int pRadius;	//Radius of the planet
-	int *axis;
+	float hourOfDay;//Day length of planet
+	float dayOfYear;//Rotational period around center of system
+	float day;		//max hours per day
+	float year;		//max days per year
 
 	int oRadius;	//Orbit radius from center of system
-	float angle;		//Current rotation angle around center of system
-	float delta;		//Change in rotation angle for update
+	float angle;	//Current rotation angle around center of system
+	float delta;	//Change in rotation angle for update
 
 public:
 
 	//Constructor
-	Planet(int red, int green, int blue, int pRadius, int oRadius, int delta,
-		   int x, int y, int z);
+	Planet(int red, int green, int blue, int pRadius, int oRadius, float year, float day);
 
 	void render();
 	void update(float stepMult);

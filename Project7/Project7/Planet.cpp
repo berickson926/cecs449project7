@@ -1,8 +1,7 @@
 
 #include "Planet.h"
 
-Planet::Planet(int red, int green, int blue, int pRadius, int oRadius, int delta,
-			   int x, int y, int z)
+Planet::Planet(int red, int green, int blue, int pRadius, int oRadius, float year, float day)
 {
 	color = new int[3];
 	color[0] = red;
@@ -14,12 +13,10 @@ Planet::Planet(int red, int green, int blue, int pRadius, int oRadius, int delta
 	this->delta = delta;
 	angle = 0;
 
-	axis = new int[3];
-	axis[0] = x;
-	axis[1] = y;
-	axis[2] = z;
-
-	cout << x << " " << y << " " << z << endl;
+	hourOfDay = 0;
+	dayOfYear = 0;
+	this->year = year;
+	this->day = day;
 }
 
 //Pre:
@@ -30,20 +27,22 @@ void Planet::render()
 
 	glColor3f(color[0], color[1], color[2]);
 	
-	glPushMatrix();
-		glRotatef(angle, 0, 1, 0);//need to modify for different axis possibilities
-		glTranslatef(oRadius, 0, 0); //Only working on x-axis atm, need to modify to allow axis to be changed
-		glutSolidSphere(pRadius, 50,50);
-	glPopMatrix();
+	glRotatef(360.0 * dayOfYear / year, 0, 1, 0);//rotate
+	glTranslatef(oRadius, 0, 0); 
 
+	glPushMatrix();
+		glRotatef(360 * hourOfDay / day, 0,1,0); //Rotate planet on its axis
+		glutWireSphere(pRadius, 50,50);
+	glPopMatrix();
 }//end render
 
 //Pre:
 //Post:
 void Planet::update(float stepMult)
 {
-	angle += (delta * stepMult);
+	hourOfDay += stepMult;
+	dayOfYear += stepMult/24.0;
 
-	if(angle > 360)
-		angle = 0;
+	hourOfDay = hourOfDay - ((int)(hourOfDay/day))*day;
+	dayOfYear = dayOfYear - ((int)(dayOfYear/year))*year;
 }//end update

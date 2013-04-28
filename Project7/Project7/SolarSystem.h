@@ -9,14 +9,14 @@ class SolarSystem
 {
 private:
 
-	State state;		//Manages state of the entire solar system update/rendering for user control
+	State state;			//Manages state of the entire solar system update/rendering for user control
 	float stepMultiplier;	//increase/decrease speed of celestial object rotation
 
 
 	//Various celestial objects
 	Planet *sun;
 	Planet *earth;
-
+	Planet *moon;
 	Planet *planetX;
 	Planet *planetY;
 	Planet *planetZ;
