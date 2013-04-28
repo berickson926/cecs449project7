@@ -11,18 +11,18 @@ class Planet
 {
 private:
 
-	int* color; //Defines RGB values for color rendering
-	int radius; //Distance planet appears from center of system
+	int* color;		//Defines RGB values for color rendering
+	int pRadius;	//Radius of the planet
 
-	int angle;
-	int delta; //Change in rotation angle for update
+
+	int oRadius;	//Orbit radius from center of system
+	int angle;		//Current rotation angle around center of system
+	int delta;		//Change in rotation angle for update
 
 public:
 
-	//Constructors
-	Planet();
-
-	Planet(int red, int green, int blue, int radius, int delta);
+	//Constructor
+	Planet(int red, int green, int blue, int pRadius, int oRadius, int delta);
 
 	void render();
 	void update();

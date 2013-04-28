@@ -3,13 +3,19 @@
 
 #include "Planet.h"
 
+enum State {RUNNING, STOPPED};
+
 class SolarSystem
 {
 private:
 
-	//Planet planetArray;
-	Planet *testSun;
-	Planet *testPlanet;
+	//Various celestial objects
+	Planet *sun;
+	Planet *earth;
+
+	Planet *planetX;
+	Planet *planetY;
+	Planet *planetZ;
 
 public:
 
@@ -17,7 +23,7 @@ public:
 	SolarSystem();
 
 	void update();
-	//update(keyboard key input?);
+	void input(State state);
 	void render();
 };
 

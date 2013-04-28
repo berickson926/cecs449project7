@@ -21,7 +21,7 @@ int cameraRotateWindow, solarSystemWindow; //Identifiers for the separate window
 int ssWidth = 500;		//screen dimensions
 int ssHeight= 500;
 SolarSystem *solarSys;	//Reference to the solar system object we will be rendering
-int solarSysClip = 50;	//clip window value for solar system 
+int solarSysClip = 400;	//clip window value for solar system 
 
 
 //Pre:
@@ -38,8 +38,20 @@ void solarSys_Display()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	//Draw x,y,z axis for debug purposes
+	glColor3f(1,1,1);
+	glBegin(GL_LINES);
+		glVertex3f(-500,0,0);
+		glVertex3f(500,0,0);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0,500,0);
+		glVertex3f(0,-500,0);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0,0,500);
+		glVertex3f(0,0,-500);
+	glEnd();
 
 	solarSys->render();
 
@@ -50,7 +62,28 @@ void solarSys_Display()
 //Post:
 void solarSys_Reshape(int w, int h)
 {
-	//TODO
+	ssWidth = w;
+	ssHeight = h;
+	GLfloat aspect = (GLfloat) ssWidth / (GLfloat) ssHeight;
+
+	//setup worldwindow
+	glMatrixMode(GL_PROJECTION);				
+	glLoadIdentity();							
+
+	glViewport(0,0,ssWidth, ssHeight);
+
+	if(ssWidth <= ssHeight)
+		glOrtho(-solarSysClip, solarSysClip, -solarSysClip/aspect, solarSysClip/aspect, -solarSysClip, solarSysClip);
+	else
+		glOrtho(-solarSysClip*aspect, solarSysClip*aspect, -solarSysClip, solarSysClip, -solarSysClip, solarSysClip);
+
+
+	/*glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 0, 150,
+			  0.0, 0.0, 0.0,
+			  0.0, 1 , 0);*/
+
 	glutPostRedisplay();
 }//end solarSys_Reshape
 
@@ -77,9 +110,19 @@ void initialize()
 	glutDisplayFunc(solarSys_Display);
 	glutKeyboardFunc(solarSys_KeyboardInput);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -100, 100);
+	////glMatrixMode(GL_PROJECTION);
+	////glLoadIdentity();
+	//////glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -100, 100);
+	////glOrtho(-5,5,-5,5, 5,-5);
+	//
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//gluPerspective(50.0, 1.0, 3.0, 7.0);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+	//gluLookAt(0.0, 0.0, 5.0,
+	//		  0.0, 0.0, 0.0,
+	//		  0.0, 1.0, 0.0);
 
 
 	//Setup camera rotate example window

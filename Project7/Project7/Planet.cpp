@@ -1,18 +1,18 @@
 
 #include "Planet.h"
 
-Planet::Planet(int red, int green, int blue, int radius, int delta)
+Planet::Planet(int red, int green, int blue, int pRadius, int oRadius, int delta)
 {
 	color = new int[3];
 	color[0] = red;
 	color[1] = green;
 	color[2] = blue;
-
-	this->radius = radius;
+	
+	this->pRadius = pRadius;
+	this->oRadius = oRadius;
 	this->delta = delta;
 	angle = 0;
 }
-
 
 void Planet::render()
 {
@@ -22,8 +22,8 @@ void Planet::render()
 	
 	glPushMatrix();
 	glRotatef(angle, 0,1,0);//need to modify for different axis possibilities
-	glTranslatef(radius, 0, 0); //Only working on x-axis atm, need to modify to allow axis to be changed
-	glutWireSphere(10, 50,50);
+	glTranslatef(oRadius, 0, 0); //Only working on x-axis atm, need to modify to allow axis to be changed
+	glutWireSphere(pRadius, 50,50);
 	
 
 }//end render
@@ -33,8 +33,5 @@ void Planet::update()
 	angle += delta;
 
 	if(angle > 360)
-	{
 		angle = 0;
-
-	}		
-}
+}//end update
