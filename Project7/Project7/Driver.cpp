@@ -14,15 +14,12 @@
 #include <stdlib.h>
 #include "SolarSystem.h"
 
-
 int cameraRotateWindow, solarSystemWindow; //Identifiers for the separate windows
 
 //Independent clip window/screen variables
 int ssWidth = 500;		//screen dimensions
 int ssHeight= 500;
 SolarSystem *solarSys;	//Reference to the solar system object we will be rendering
-int solarSysClip = 400;	//clip window value for solar system 
-
 
 //Pre:
 //Post:
@@ -31,20 +28,31 @@ void solarSys_KeyboardInput(unsigned char key, int x, int y)
 	switch(key)
 	{
 	case 'r': //Toggle animation
-
+		solarSys->toggleAnimation();
 		break;
-
 	case 's': //single-step animation
+		solarSys->singleStep();
 		break;
-
-			//up key
-
-			//down key
 	case 27:
 		exit(0);
 		break;
 	}//end switch
 }//end solarSys_KeyboardInput
+
+//Pre:
+//Post:
+void solarSys_SpecialKeyboardInput(int key, int x, int y)
+{
+	switch(key)
+	{
+	case GLUT_KEY_UP:	//up key
+		solarSys->increaseStep();
+		break;
+	case GLUT_KEY_DOWN://down key
+		solarSys->decreaseStep();
+		break;
+	}//end switch
+}//end solarSys_SpecialKeyboardInput
 
 //Pre: None
 //Post: Clears background to black and renders the current state of the solar system 3d model
@@ -70,6 +78,7 @@ void solarSys_Display()
 		glVertex3f(0,0,-500);
 	glEnd();
 
+	//render solar system scene
 	solarSys->render();
 
 	glutSwapBuffers();
@@ -82,7 +91,7 @@ void solarSys_Reshape(int w, int h)
 	glViewport(0,0,w,h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 500);
+	gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 1000);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//glTranslatef(0.0,0.0, -250.0);
@@ -91,11 +100,13 @@ void solarSys_Reshape(int w, int h)
 	glutPostRedisplay();
 }//end solarSys_Reshape
 
-//Pre:
+//Pre:none
 //Post:
 void update()
 {
 	solarSys->update();
+
+
 	glutPostRedisplay();
 }
 
@@ -110,10 +121,11 @@ void initialize()
 
 	glutInitWindowSize(ssWidth,ssHeight);
 	solarSystemWindow = glutCreateWindow("Solar System");
+	//Callbacks specifically for solar system window
 	glutReshapeFunc(solarSys_Reshape);
 	glutDisplayFunc(solarSys_Display);
 	glutKeyboardFunc(solarSys_KeyboardInput);
-
+	glutSpecialFunc(solarSys_SpecialKeyboardInput);//Extra keyboard callback needed for up/down keys
 	glShadeModel(GL_FLAT);
 
 

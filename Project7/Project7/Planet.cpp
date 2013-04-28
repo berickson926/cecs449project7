@@ -40,9 +40,9 @@ void Planet::render()
 
 //Pre:
 //Post:
-void Planet::update()
+void Planet::update(float stepMult)
 {
-	angle += delta;
+	angle += (delta * stepMult);
 
 	if(angle > 360)
 		angle = 0;

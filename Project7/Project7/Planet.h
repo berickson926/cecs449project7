@@ -19,8 +19,8 @@ private:
 	int *axis;
 
 	int oRadius;	//Orbit radius from center of system
-	int angle;		//Current rotation angle around center of system
-	int delta;		//Change in rotation angle for update
+	float angle;		//Current rotation angle around center of system
+	float delta;		//Change in rotation angle for update
 
 public:
 
@@ -29,7 +29,7 @@ public:
 		   int x, int y, int z);
 
 	void render();
-	void update();
+	void update(float stepMult);
 };
 
 #endif
