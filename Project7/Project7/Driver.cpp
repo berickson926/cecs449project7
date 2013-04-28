@@ -28,15 +28,32 @@ int solarSysClip = 400;	//clip window value for solar system
 //Post:
 void solarSys_KeyboardInput(unsigned char key, int x, int y)
 {
-	//TODO
+	switch(key)
+	{
+	case 'r': //Toggle animation
+
+		break;
+
+	case 's': //single-step animation
+		break;
+
+			//up key
+
+			//down key
+	case 27:
+		exit(0);
+		break;
+	}//end switch
 }//end solarSys_KeyboardInput
 
 //Pre: None
 //Post: Clears background to black and renders the current state of the solar system 3d model
 void solarSys_Display()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0,0,0,0);
+	glClearDepth(1.0);
+	glEnable(GL_DEPTH_TEST);
 
 	//Draw x,y,z axis for debug purposes
 	glColor3f(1,1,1);
@@ -62,27 +79,14 @@ void solarSys_Display()
 //Post:
 void solarSys_Reshape(int w, int h)
 {
-	ssWidth = w;
-	ssHeight = h;
-	GLfloat aspect = (GLfloat) ssWidth / (GLfloat) ssHeight;
-
-	//setup worldwindow
-	glMatrixMode(GL_PROJECTION);				
-	glLoadIdentity();							
-
-	glViewport(0,0,ssWidth, ssHeight);
-
-	if(ssWidth <= ssHeight)
-		glOrtho(-solarSysClip, solarSysClip, -solarSysClip/aspect, solarSysClip/aspect, -solarSysClip, solarSysClip);
-	else
-		glOrtho(-solarSysClip*aspect, solarSysClip*aspect, -solarSysClip, solarSysClip, -solarSysClip, solarSysClip);
-
-
-	/*glMatrixMode(GL_MODELVIEW);
+	glViewport(0,0,w,h);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluLookAt(0, 0, 150,
-			  0.0, 0.0, 0.0,
-			  0.0, 1 , 0);*/
+	gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 500);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//glTranslatef(0.0,0.0, -250.0);
+	gluLookAt(250,100,250, 0,0,0, 0,1,0);
 
 	glutPostRedisplay();
 }//end solarSys_Reshape
@@ -110,26 +114,15 @@ void initialize()
 	glutDisplayFunc(solarSys_Display);
 	glutKeyboardFunc(solarSys_KeyboardInput);
 
-	////glMatrixMode(GL_PROJECTION);
-	////glLoadIdentity();
-	//////glOrtho(-solarSysClip, solarSysClip, -solarSysClip, solarSysClip, -100, 100);
-	////glOrtho(-5,5,-5,5, 5,-5);
-	//
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//gluPerspective(50.0, 1.0, 3.0, 7.0);
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-	//gluLookAt(0.0, 0.0, 5.0,
-	//		  0.0, 0.0, 0.0,
-	//		  0.0, 1.0, 0.0);
+	glShadeModel(GL_FLAT);
 
 
-	//Setup camera rotate example window
+	//Setup camera rotate example window here
 
 
 	//Shared update callback
 	glutIdleFunc(update);
+
 }//end initializeWindows
 
 
@@ -138,7 +131,7 @@ void main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
-	initialize();
+	initialize(); //setup windows & initialize data
 
 	glutMainLoop();
 }//end main
