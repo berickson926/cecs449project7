@@ -20,6 +20,7 @@ int cameraRotateWindow, solarSystemWindow; //Identifiers for the separate window
 int ssWidth = 500;		//screen dimensions
 int ssHeight= 500;
 SolarSystem *solarSys;	//Reference to the solar system object we will be rendering
+float xAngle, yAngle, zAngle;//Camera rotation for solar system
 
 //Camera Rotate variables
 double rotate_y=0; 
@@ -41,6 +42,19 @@ void solarSys_KeyboardInput(unsigned char key, int x, int y)
 		break;
 	case 's': //single-step animation
 		solarSys->singleStep();
+		break;
+	case '1':
+		cout << "Pressed 1" << xAngle << endl;
+		xAngle += 5;
+		glutPostRedisplay();
+		break;
+	case '2': //Rotate camera angle around y-axis
+		yAngle += 5;
+		glutPostRedisplay();
+		break;
+	case '3':
+		zAngle += 5;
+		glutPostRedisplay();
 		break;
 	case 27:
 		exit(0);
@@ -67,30 +81,39 @@ void solarSys_SpecialKeyboardInput(int key, int x, int y)
 //Post: Clears background to black and renders the current state of the solar system 3d model
 void solarSys_Display()
 {
+	glPushMatrix();
+	glRotatef(yAngle, 0,1,0);
+	glRotatef(xAngle, 1,0,0);
+	glRotatef(zAngle, 0,0,1);
+	
+	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 	glClearDepth(1.0);
 	glEnable(GL_DEPTH_TEST);
 
-	//Draw x,y,z axis for debug purposes
-	glColor3f(1,1,1);
-	glBegin(GL_LINES);
-		glVertex3f(-500,0,0);
-		glVertex3f(500,0,0);
-	glEnd();
-	glBegin(GL_LINES);
-		glVertex3f(0,500,0);
-		glVertex3f(0,-500,0);
-	glEnd();
-	glBegin(GL_LINES);
-		glVertex3f(0,0,500);
-		glVertex3f(0,0,-500);
-	glEnd();
+	////Draw x,y,z axis for debug purposes
+	//glColor3f(1,1,1);
+	//glBegin(GL_LINES);
+	//	glVertex3f(-500,0,0);
+	//	glVertex3f(500,0,0);
+	//glEnd();
+	//glBegin(GL_LINES);
+	//	glVertex3f(0,500,0);
+	//	glVertex3f(0,-500,0);
+	//glEnd();
+	//glBegin(GL_LINES);
+	//	glVertex3f(0,0,500);
+	//	glVertex3f(0,0,-500);
+	//glEnd();
 
 	//render solar system scene
 	solarSys->render();
 
 	glutSwapBuffers();
+
+	glPopMatrix();
 }//end solarSys_Display
 
 //Pre:
@@ -247,6 +270,7 @@ void initialize()
 {
 	//Setup solar system window
 	solarSys = new SolarSystem();
+	xAngle = yAngle = zAngle = 0;
 
 	glutInitWindowSize(ssWidth,ssHeight);
 	solarSystemWindow = glutCreateWindow("Solar System");
