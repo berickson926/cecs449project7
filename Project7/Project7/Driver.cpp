@@ -3,7 +3,29 @@
 
 	Authors: Bret Erickson, James Pardue
 
-	Description:
+	Academic team project
+
+	Part 1 - Bret Erickson
+
+	Render a 3D wirefram model of a 'solar system' including a sun and four planets.
+
+	One planet also features a moon
+	Controls:
+
+	Press "r" key to toggle (off and on) running the animation
+	Press "s" key to single-step animation
+	The up arrow key and down array key control the time step used in the animation rate. 
+	Each key press multiplies or divides the times by a factor of two (2).
+	Press ESCAPE to exit.
+	Part 2 - James Pardue
+
+	Rotate camera around a fixed 3D cube
+
+	Controls:
+
+	x(decrease), X (increase), y, Y, z, and Z keys on the keyboard. 
+	Camera always points at the center of the object. 
+	The object is rotated about the x-, y- or z- axis based on the user input.
 
 */
 
@@ -31,8 +53,6 @@ float Ex = -1;
 float Ey = -1; 
 float Ez = -1;
 
-//Pre:
-//Post:
 void solarSys_KeyboardInput(unsigned char key, int x, int y)
 {
 	switch(key)
@@ -44,7 +64,6 @@ void solarSys_KeyboardInput(unsigned char key, int x, int y)
 		solarSys->singleStep();
 		break;
 	case '1':
-		cout << "Pressed 1" << xAngle << endl;
 		xAngle += 5;
 		glutPostRedisplay();
 		break;
@@ -62,8 +81,6 @@ void solarSys_KeyboardInput(unsigned char key, int x, int y)
 	}//end switch
 }//end solarSys_KeyboardInput
 
-//Pre:
-//Post:
 void solarSys_SpecialKeyboardInput(int key, int x, int y)
 {
 	switch(key)
@@ -93,20 +110,20 @@ void solarSys_Display()
 	glClearDepth(1.0);
 	glEnable(GL_DEPTH_TEST);
 
-	////Draw x,y,z axis for debug purposes
-	//glColor3f(1,1,1);
-	//glBegin(GL_LINES);
-	//	glVertex3f(-500,0,0);
-	//	glVertex3f(500,0,0);
-	//glEnd();
-	//glBegin(GL_LINES);
-	//	glVertex3f(0,500,0);
-	//	glVertex3f(0,-500,0);
-	//glEnd();
-	//glBegin(GL_LINES);
-	//	glVertex3f(0,0,500);
-	//	glVertex3f(0,0,-500);
-	//glEnd();
+	//Draw x,y,z axis for debug purposes
+	glColor3f(0,1,0);
+	glBegin(GL_LINES);
+		glVertex3f(-500,0,0);
+		glVertex3f(500,0,0);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0,500,0);
+		glVertex3f(0,-500,0);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0,0,500);
+		glVertex3f(0,0,-500);
+	glEnd();
 
 	//render solar system scene
 	solarSys->render();
@@ -116,8 +133,6 @@ void solarSys_Display()
 	glPopMatrix();
 }//end solarSys_Display
 
-//Pre:
-//Post:
 void solarSys_Reshape(int w, int h)
 {
 	glViewport(0,0,w,h);
@@ -132,8 +147,6 @@ void solarSys_Reshape(int w, int h)
 	glutPostRedisplay();
 }//end solarSys_Reshape
 
-//Pre:none
-//Post:
 void update()
 {
 	solarSys->update();
@@ -143,7 +156,7 @@ void update()
 }
 
 //////////////////////////////////////////////////////////////////
-//Code for Part b
+//Code for Part 2
 /////////////////////////////////////////////////////////////////
 void display()
 {
@@ -263,12 +276,18 @@ void reshape (int w, int h)
    glMatrixMode (GL_MODELVIEW);
 }
 ////////////////////////////////////////////////////////////////////////////
+
 //Pre:None
 //Post:Initializes two windows, one for displaying the 3d solar system, the other for the camera rotation simulation
 //along with their required callbacks
 void initialize()
 {
 	//Setup solar system window
+	cout << "---- Solar System Camera Controls ----" << endl;
+	cout << "1: Rotate +x axis" << endl;
+	cout << "2: Rotate +y axis" << endl;
+	cout << "3: Rotate +z axis" << endl;
+
 	solarSys = new SolarSystem();
 	xAngle = yAngle = zAngle = 0;
 
@@ -293,7 +312,7 @@ void initialize()
 	
 }//end initializeWindows
 
-
+//Application entrypoint
 void main(int argc, char **argv)
 {
 	glutInit(&argc, argv);

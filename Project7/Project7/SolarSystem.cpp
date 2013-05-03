@@ -14,9 +14,9 @@ SolarSystem::SolarSystem()
 	earth = new Planet(0,0,1, 15,150, 365,24);
 	moon =	new Planet(1,1,1, 2,20, 30.4, 1);
 
-	planetX = new Planet(1,0,1, 30, 300, 200,1);
-	planetY = new Planet(1,0,0, 15, 200, 500,1);
-	planetZ = new Planet(0,1,1, 15, 250, 100,1);
+	planetX = new Planet(1,0,1, 30, 300, 800,1);
+	planetY = new Planet(1,0,0, 15, 200, 200,1);
+	planetZ = new Planet(0,1,1, 30, 250, 900,1);
 
 	state = RUNNING;
 

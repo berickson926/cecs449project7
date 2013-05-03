@@ -35,11 +35,11 @@ public:
 	void render();
 
 	//Pre:none
-	//Post:
+	//Post: Doubles the time step of the system
 	void increaseStep();
 
-	//Pre:
-	//Post:
+	//Pre: none
+	//Post: Halves the time step of the system
 	void decreaseStep();
 
 	//Pre:None

@@ -18,6 +18,7 @@ void drawCirclePoint(int x, int y)
 	glEnd();
 }//end drawCirclePoint
 
+//Used to draw the orbital path of this planet
 void circleMidpoint(int oRadius)
 {
 	int radius = oRadius; //Will approximate 1 foot
